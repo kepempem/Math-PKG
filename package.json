@@ -1,0 +1,30 @@
+{
+  "name": "math-pkg-cmplx",
+  "version": "1.0.0",
+  "description": "Math Library",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kepempem/Math-PKG.git"
+  },
+  "keywords": [
+    "math",
+    "complex",
+    "euler",
+    "gauss",
+    "integrals",
+    "factorial",
+    "roots",
+    "equations",
+    "polynomials"
+  ],
+  "author": "Shani Dahan Shlapobersky",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kepempem/Math-PKG/issues"
+  },
+  "homepage": "https://github.com/kepempem/Math-PKG#readme"
+}
