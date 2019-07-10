@@ -1,7 +1,7 @@
 {
   "name": "math-pkg-cmplx",
-  "version": "1.0.1",
-  "description": "Math Library",
+  "version": "1.0.2",
+  "description": "Math Library with Complex Number Functionality, Integration functions and conversion functions between numerical bases.",
   "main": "index.js",
   "scripts": {
     "test": "node test.js"
