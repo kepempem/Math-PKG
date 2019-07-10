@@ -3,7 +3,7 @@ let sum = require("./Sum");
 function riemannSum(a, b, f, p = 0, isLeftSum=true){
 	let n = p;
 	if(n <= 0){
-		n = Math.pow(10,3) * (a - b);
+		n = Math.pow(10,3) * (b - a);
 	}
 	let dt = ((b-a)/n);
 	let sumStart = 0;
