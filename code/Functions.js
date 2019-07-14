@@ -1,22 +1,95 @@
-const RiemannSum = require("./RiemannSum");
-const Log = require("./Log");
-const Factorial = require("./Factorial");
-const FactorialDerivative = require("./FactorialDerivative");
-const C = require("./Complex");
-const li2 = 1.0451637801174927848445888891946131365226155781512015758329091440750132052103595301727174056263833563060208297688747466222852397852196502790210823345578454055159053003222632748284543905148534966228633054761993303044;
+const li2 = require("./Constants").LI2;
+const Complex = require("./Complex");
+
+
+const Fk = Math.pow(10, 4);
+const FupperBound = Math.pow(10, 6);
+const realUnit = new Complex(1, 0);
+const imaginaryUnit = new Complex(0, 1);
+
+
+// Real Functions (R -> R)
+
+const Sum = (a, b, f, step = 1)=>{
+	let n = a;
+	let end = b;
+	if(a > b){
+		n = b;
+		end = a;
+	}
+	let _sum = 0;
+	for(let i=a; i<=b; i=i+step){
+		_sum += f(i);
+	}
+	return _sum;
+};
+
+
+const Prod = (a, b, f, step = 1)=>{
+	let n = a;
+	let end = b;
+	if(a > b){
+		n = b;
+		end = a;
+	}
+	let _prod = 1;
+	for(let i=a; i<=b; i=i+step){
+		_prod *= f(i);
+	}
+	return _prod;
+};
+
+const digamma = x=>FactorialDerivative(x-1)/gamma(x);
+
+const zeta = s=>{
+	if(s>1){
+		let rs = RiemannSum.avg(Math.pow(10,-8),100,t=>{
+			return Math.pow(t,s-1)/(Math.exp(t)-1);
+		});
+		return (1/gamma(s)) * rs;
+	}else{
+		return NaN;
+	}
+};
+
+const FactorialDerivative = (z)=>{
+	return Sum(1, FupperBound, j=>{
+		return (Math.pow(j,z) * Math.log(j/Fk))/Math.exp(j/Fk);
+	})/Math.pow(Fk, z+1);
+};
+
+const erf = x=>(2/Math.sqrt(Math.PI)) * RiemannSum.avg(0, x, t=>Math.exp(-1 * Math.pow(t, 2)));
+
+const Ei = x=>li(Math.exp(x));
+
+const li = x=>{
+	let rema = 0;
+	let start = Math.pow(10, -8);
+	if(x >= 2){
+		rema = li2;
+		start = 2;
+	}
+	return rema+RiemannSum.avg(start, x, t=>1/Log.ln(t));
+};
+
+const root = (r,p)=>Math.pow(r, 1/p);
+
+const round = (x,p)=>Math.round(x * Math.pow(10,p)) / Math.pow(10,p);
+
+
+
+// Complex Functions
 const toComplex = x=>{
 	if(typeof x == "number"){
-		return new C(x, 0);
-	}else if(x instanceof C){
+		return new Complex(x, 0);
+	}else if(x instanceof Complex){
 		return x;
 	}
 };
-const sum = require("./Sum");
-const prod = require("./Prod");
 const toReal = x=>{
 	if(typeof x == "number"){
 		return x;
-	}else if(x instanceof C){
+	}else if(x instanceof Complex){
 		if(x.Im !== 0){
 			return x;
 		}else{
@@ -24,16 +97,66 @@ const toReal = x=>{
 		}
 	}
 };
-const li = x=>{
-	let rema = 0;
-	let start = 0;
-	if(x >= 2){
-		rema = li2;
-		start = 2;
+
+
+
+const gamma = z=>{
+	if(typeof z == "number"){
+		if(z < 1 && z == Math.floor(z)){
+			return NaN;
+		}
+		return RiemannSum.avg(0,1000+z*5,t=>Math.pow(t,z-1)/Math.exp(t));
+	}else if(z instanceof Complex){
+		return Factorial(z.subtract(realUnit));
 	}
-	return rema+RiemannSum.avg(start, x, t=>1/Log.ln(t));
 };
-const gamma = x=>Factorial(x-1);
+const Factorial = (z)=>{
+	if(z instanceof Complex){
+		if(z.Im !== 0){
+			return ComplexFactorial(z);
+		}else{
+			return new Complex(Factorial(z.Re));
+		}
+	}
+	if(z == 0){
+		return 1;
+	}else if(z >= 1 && z == Math.floor(z)){
+		return z * Factorial(z - 1);
+	}else if(z < 0 && z == Math.floor(z)){
+		return NaN;
+	}else{
+		return gamma(z+1);
+	}
+};
+
+
+
+
+const ComplexFactorial = z=>{
+	let s = new Complex(0);
+	for(let j=1;j<=upperBound;j++){
+		let _j = toComplex(j);
+		s.setC(
+			s.add(
+				_j
+					.pow(z)
+					.divide(
+						toComplex(Math.E)
+						.pow(
+							toComplex(j/k)
+						)
+					)
+			)
+		);
+	}
+	return s.divide(
+		toComplex(k)
+		.pow(z.add(1))
+	);
+};
+
+
+
 const findRoots = (...v)=>{
 	if(v.length==0){
 		return null;
@@ -88,34 +211,102 @@ const findRoots = (...v)=>{
 	}
 	return [];
 };
-module.exports={
-	li,
-	erf:x=>(2/Math.sqrt(Math.PI)) * RiemannSum.avg(0, x, t=>Math.exp(-1 * Math.pow(t, 2))),
-	Ei:x=>li(Math.exp(x)),
-	gamma,
-	digamma:x=>FactorialDerivative(x-1)/Factorial(x-1),
-	zeta:s=>{
-		if(s>1){
-			let rs = RiemannSum.avg(Math.pow(10,-8),100,t=>{
-				return Math.pow(t,s-1)/(Math.exp(t)-1);
-			});
-			return (1/gamma(s)) * rs;
-		}else{
-			return NaN;
-		}
-	},
-	root:(r,p)=>Math.pow(r, 1/p),
-	toComplex,
-	cis:x=>toComplex(x).cis,
-	cos:x=>toReal(toComplex(x).cos),
-	sin:x=>toReal(toComplex(x).sin),
-	tan:x=>toReal(toComplex(x).sin.divide(toComplex(x).cos)),
-	round:(x,p)=>{
-		return Math.round(x * Math.pow(10,p)) / Math.pow(10,p);
-	},
-	findRoots,
-	sum,
-	prod,
-	Factorial,
-	FactorialDerivative
+
+
+const sin = x=>{
+	if(typeof x == "number"){
+		return new Complex(Math.sin(x));
+	}else if(x instanceof Complex){
+		return new Complex(sin(x.Re)*Math.cosh(x.Im), cos(x.Re)*Math.sinh(x.Im));
+	}
 };
+
+const cos = x=>{
+	if(typeof x == "number"){
+		return new Complex(Math.cos(x));
+	}else if(x instanceof Complex){
+		return new Complex(cos(x.Re)*Math.cosh(x.Im), -1*sin(x.Re)*Math.sinh(x.Im));
+	}
+};
+
+const tan = x=>{
+	if(typeof x == "number"){
+		return new Complex(Math.tan(x));
+	}else if(x instanceof Complex){
+		return sin(x).divide(cos(x));
+	}
+};
+
+
+const cis = x=>{
+	if(typeof x=="number"){
+		return new Complex(Math.cos(x),Math.sin(x));
+	}else if(x instanceof Complex){
+		return cos(x).add(imaginaryUnit.times(sin(x)));
+	}
+};
+
+
+const ln = x=>{
+	if(typeof x == "number"){
+		return new Complex(Math.log(x));
+	}else{
+		if(x.equals(0)){
+			return new Complex(-Infinity);
+		}
+		if(x.Im == 0){
+			return new Complex(Math.log(x.Re));
+		}
+		return new Complex(Math.log(abs(x)), x.Arg);
+	}
+};
+
+const log = (x,b)=>{
+	if(typeof b == "undefined"){
+		return ln(x);
+	}else{
+		return ln(x).divide(ln(b));
+	}
+};
+
+
+const abs = x=>{
+	if(typeof x == "number"){
+		return Math.abs(x);
+	}else{
+		return Math.sqrt(Math.pow(x.Re, 2) + Math.pow(x.Im, 2));
+	}
+};
+
+module.exports={
+
+
+	// Real Functions
+	Sum,
+	Prod,
+	digamma,
+	zeta,
+	FactorialDerivative,
+	erf,
+	Ei,
+	li,
+	root,
+	round,
+
+
+	// Complex Functions
+	toComplex,
+	toReal,
+	gamma,
+	Factorial,
+	findRoots,
+	sin,
+	cos,
+	tan,
+	cis,
+	ln,
+	log,
+	abs
+
+};
+const RiemannSum = require("./RiemannSum");

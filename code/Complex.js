@@ -23,46 +23,6 @@ class Complex {
 		return new Complex(-1*this.Re, -1*this.Im);
 	}
 
-	get abs(){
-		return Math.sqrt(Math.pow(this.Re, 2) + Math.pow(this.Im, 2));
-	}
-
-	get ln(){
-		if(this.equals(0)){
-			return new Complex(-Infinity);
-		}
-		if(this.Im == 0){
-			return new Complex(Math.log(this.Re));
-		}
-		return new Complex(Math.log(this.abs), this.Arg);
-	}
-
-	get cos(){
-		return cos(this);
-	}
-
-	get sin(){
-		return sin(this);
-	}
-
-	get tan(){
-		return this.sin.divide(this.cos);
-	}
-
-	get cis(){
-		return cis(this);
-	}
-
-	get factorial(){
-		if(this.equals(this.Re)){
-			if(this.Re < 0 && Math.floor(this.Re) == this.Re){
-				return NaN;
-			}
-			return Factorial(this.Re);
-		}
-		return complexFactorial(this);
-	}
-
 	set Re(val){
 		if(typeof val == "number"){
 			this.real = val;
@@ -138,7 +98,16 @@ class Complex {
 
 
 	toString(){
-		return this.Re + (this.Im<0?"-":"+") + Math.abs(this.Im)+"i";
+		let ip = Math.abs(this.Im);
+		if(this.equals(0)){
+			return "0";
+		}else if(this.Im == 0){
+			return this.Re.toString();
+		}else if(this.Re !== 0){
+			return this.Re.toString() + " " + (this.Im<0?"-":"+") + " " + (ip==1?"":ip) + "i";
+		}else{
+			return (this.Im<0?"-":"") + (ip==1?"":ip) + "i";
+		}
 	}
 
 	equals(n){
@@ -160,12 +129,12 @@ class Complex {
 			}else if(n == 1){
 				return this.copy();
 			}else if(n == -1){
-				let absq = Math.pow(this.abs, 2);
+				let absq = Math.pow(abs(this), 2);
 				return new Complex(this.Re / absq, -1 * this.Im/absq);
 			}else if(n < 0){
 				return realUnit.divide(this.pow(-1 * n));
 			}else if(n > 0){
-				if(n == Math.floor(n)){
+				if(n % 1 == 0){
 					return this.times(this.pow(n-1));
 				}else{
 					let frac = n % 1;
@@ -174,7 +143,7 @@ class Complex {
 				}
 			}
 		}else if(n instanceof Complex){
-			return this.pow(n.Re).times(this.ln.times(n.Im).cis);
+			return this.pow(n.Re).times(cis(ln(this).times(n.Im)));
 		}
 	}
 
@@ -190,7 +159,7 @@ class Complex {
 				return [toComplex(0)];
 			}
 			let roots = [];
-			let absn = Math.pow(this.abs, 1/n);
+			let absn = Math.pow(abs(this), 1/n);
 			let theta = this.Arg;
 			for(let k=0;k<n;k++){
 				let root = cis((theta+2*Math.PI*k)/n).times(absn);
@@ -212,34 +181,10 @@ class Complex {
 		}
 	}
 
-	log(base){
-		return this.ln.divide(toComplex(base).ln);
-	}
-
 }
+
+
 const realUnit = new Complex(1, 0);
-const imaginaryUnit = new Complex(0, 1);
-const cos = x=>{
-	if(typeof x == "number"){
-		return Math.cos(x);
-	}else if(x instanceof Complex){
-		return new Complex(cos(x.Re)*Math.cosh(x.Im), -1*sin(x.Re)*Math.sinh(x.Im));
-	}
-};
-const sin = x=>{
-	if(typeof x == "number"){
-		return Math.sin(x);
-	}else if(x instanceof Complex){
-		return new Complex(sin(x.Re)*Math.cosh(x.Im), cos(x.Re)*Math.sinh(x.Im));
-	}
-};
-const cis = x=>{
-	if(typeof x=="number"){
-		return new Complex(Math.cos(x),Math.sin(x));
-	}else if(x instanceof Complex){
-		return cos(x).add(imaginaryUnit.times(sin(x)));
-	}
-};
 const toComplex = x=>{
 	if(typeof x == "number"){
 		return new Complex(x, 0);
@@ -247,16 +192,5 @@ const toComplex = x=>{
 		return x;
 	}
 };
-const Factorial = require("./Factorial");
-const k = Math.pow(10, 4);
-const upperBound = Math.pow(10, 6);
-const complexFactorial = z=>{
-	let s = new Complex(0);
-	for(let j=1;j<=upperBound;j++){
-		let _j = toComplex(j);
-		s.setC(s.add(_j.pow(z).divide(toComplex(Math.E).pow(toComplex(j/k)))));
-	}
-	return s.divide(toComplex(k).pow(z.add(1)));
-};
-
 module.exports = Complex;
+const {cis, ln, abs} = require("./Functions");
