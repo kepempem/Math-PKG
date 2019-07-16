@@ -32,3 +32,4 @@ console.log(
 	.round(10)
 	.toString()
 );
+console.log(Functions.sin(new Complex(4, 7)).toString());

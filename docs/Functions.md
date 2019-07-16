@@ -30,7 +30,7 @@
     + [Constants](./Constants.md)
 
 ``MathPKG.Functions`` contains math functions.
-To easily access them, one might define:
+To easily access them, one may define:
 ```
 const {Functions} = MathPKG;
 ```
@@ -194,7 +194,7 @@ Valid for all complex numbers, `x` can be either real or `Complex`. The function
 let r = Functions.sin(1); // = 0.8414709848078965 + 0i
 ```
 ```
-let r = Functions.sin();
+let r = Functions.sin(new Complex(4, 7)); // = sin(4 + 7i) ~ -414.967700425309 - 358.4033361942234i
 ```
 
 ## cos(x)

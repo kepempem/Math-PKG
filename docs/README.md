@@ -1,6 +1,6 @@
 # MathPKG Documentation
 
-+ Documentation
++ [Documentation](#mathpkg-documentation)
     + [Complex Numbers](./Complex.md)
     + [Functions](./Functions.md)
     + [Riemann Summation (Integration)](./Integration.md)

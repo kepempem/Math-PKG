@@ -25,7 +25,18 @@ class Base {
 	set digits(d){
 		this.dgts = d;
 	}
+	toBaseNumber(n){
+		if(n instanceof BaseNumber){
+			return n;
+		}else{
+			return new BaseNumber(n.toString(), this);
+		}
+	}
 }
+
+const simpleBase = ["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+const generateSimpleBase = (l)=>new Base(simpleBase.slice(0,l));
+const base10 = generateSimpleBase(10);
 
 class BaseNumber {
 	constructor(digits, base, sign = 1){
@@ -34,7 +45,7 @@ class BaseNumber {
 		this.sgn = sign;
 	}
 	toString(){
-		return this.sign==-1?"-":""+this.digits.join("");
+		return this.digits.join("");
 	}
 	to(c){
 		return new BaseNumber(convert(this, this.base, c),c,this.sign);
@@ -48,6 +59,11 @@ class BaseNumber {
 	get base(){
 		return this.bs;
 	}
+	get minus(){
+		let m = this.copy();
+		m.sign = (-1) * this.sign;
+		return m;
+	}
 	set sign(s){
 		if(s == 1 || s == -1){
 			this.sgn = s;
@@ -55,6 +71,12 @@ class BaseNumber {
 	}
 	set digits(d){
 		this.dgts = toArray(d);
+	}
+	toBase10(){
+		return this.sign * parseInt(this.to(base10).toString());
+	}
+	copy(){
+		return new BaseNumber(this.digits, this.base, this.sign);
 	}
 }
 
@@ -69,9 +91,7 @@ const toArray = (k)=>{
 		return k.digits;
 	}
 };
-const simpleBase = ["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
-const generateSimpleBase = (l)=>new Base(simpleBase.slice(0,l));
-const base10 = generateSimpleBase(10);
+
 const base10toBase = (numDigits,base)=>{
 	let biggestPower = 0;
 	let an = parseInt(numDigits.join(""));

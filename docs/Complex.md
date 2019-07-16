@@ -113,14 +113,14 @@ myComplexNumber.setRe(x); // myComplexNumber = x + bi
 ```
 
 ### Complex.setIm(number y)
-Sets `y` as the real part.
+Sets `y` as the imaginary part.
 ```
 let myComplexNumber = new Complex(a, b);
 myComplexNumber.setIm(y); // myComplexNumber = a + yi
 ```
 
 ### Complex.setC(Complex a)
-Sets the real part and imaginary part of `a` as the real and imaginary parts, respectively.
+Sets the real part and imaginary part of `a` as the real and imaginary parts of `this`, respectively.
 ```
 let cn1 = new Complex(a, b);
 let cn2 = new Complex(x, y);
@@ -234,9 +234,9 @@ if(cn1.equals(cn2)){
 let cn1 = new Complex(a, b);
 let cn2 = x;
 if(cn1.equals(x)){
-    // This means a == x
+    // This means that a == x and b == 0
 }else{
-    // a !== x
+    // a !== x or b !== 0
 }
 ```
 
