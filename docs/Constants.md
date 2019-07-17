@@ -1,16 +1,18 @@
 # Constants
 
-+ [Documentation](./README.md)
-    + [Complex Numbers](./Complex.md)
-    + [Functions](./Functions.md)
-    + [Riemann Summation (Integration)](./Integration.md)
-    + [BaseToolbox](./BaseToolbox.md)
-    + [Constants](#constants)
-        + Pi
-        + e
-        + The Euler Mascheroni Constant
-        + The Omega Constant
-        + li(2)
++ [MathPKG](../README.md)
+    + [Installation](../README.md#installation)
+    + [Documentation](./README.md)
+        + [Complex Numbers](./Complex.md)
+        + [Functions](./Functions.md)
+        + [Riemann Summation (Integration)](./Integration.md)
+        + [BaseToolbox](./BaseToolbox.md)
+        + [**Constants**](#constants)
+            + Pi
+            + e
+            + The Euler Mascheroni Constant
+            + The Omega Constant
+            + li(2)
 
 ``MathPKG.Constants`` contains the following constants:
 

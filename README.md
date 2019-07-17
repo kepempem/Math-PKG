@@ -6,7 +6,7 @@
 
 **Math-PKG** Is a Math Library with Complex Number Functionality, Integration functions and conversion functions between numerical bases.
 
-+ [Math-PKG](#math-pkg)
++ [**Math-PKG**](#math-pkg)
     + [Installation](#installation)
     + [Documentation](./docs/README.md)
         + [Complex Numbers](./docs/Complex.md)
@@ -34,7 +34,7 @@ const {
 	Complex,
 	Functions,
 	RiemannSum,
-    BaseToolbox,
+	BaseToolbox,
 	Constants
 } = MathPKG;
 ```
