@@ -69,7 +69,7 @@ const li = x=>{
 		rema = li2;
 		start = 2;
 	}
-	return rema+RiemannSum.avg(start, x, t=>1/Log.ln(t));
+	return rema+RiemannSum.avg(start, x, t=>1/ln(t).Re);
 };
 
 const root = (r,p)=>Math.pow(r, 1/p);
