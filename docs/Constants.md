@@ -13,6 +13,7 @@
             + The Euler Mascheroni Constant
             + The Omega Constant
             + li(2)
+            + The Golden Ratio
 
 ``MathPKG.Constants`` contains the following constants:
 
@@ -21,3 +22,4 @@
 * ``MathPKG.Constants.GAMMA`` - The Euler Mascheroni Constant
 * ``MathPKG.Constants.OMEGA`` - The Omega constant, solution of the equation ``x * exp(x) = 1``.
 * ``MathPKG.Constants.LI2`` - The logarithmic integral of `2`, the area under the curve of `1/(ln t)` from `t=0` to `t=2`.
+* ``MathPKG.Constants.GOLDEN_RATIO`` - The Golden Ratio

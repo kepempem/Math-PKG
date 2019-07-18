@@ -25,6 +25,7 @@
             + [cos(x)](#cosx)
             + [tan(x)](#tanx)
             + [cis(x)](#cisx)
+            + [exp(x)](#expx)
             + [ln(x)](#lnx)
             + [log(x, b)](#logx-b)
             + [abs(z)](#absz)
@@ -227,6 +228,15 @@ Valid for all complex numbers, `x` can be either real or `Complex`. The function
 ```
 let c = Functions.cis(3); // = -0.9899924966004454 + 0.1411200080598672i
 ```
+
+## exp(x)
+The complex exponential function. The function calculates `e ^ x` and returns the result. `x` can be either real or `Complex`. The function returns an instance of `Complex`.
+```
+let pi_i = new Complex(0, Math.PI);
+let euler = Functions.exp(pi_i)
+	        .round(10); // = e ^ (i*pi) = -1 + 0i
+```
+
 
 ## ln(x)
 The natural logarithm. Valid for `C \ {0}` (All complex number except `0`). `x` can be either real or `Complex`. The function returns an instance of `Complex`.

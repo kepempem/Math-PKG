@@ -7,13 +7,10 @@ const {
 	BaseToolbox
 } = MathPKG;
 
-let e = new Complex(Math.E);
-let pi = new Complex(Math.PI);
-let i = new Complex(0,1);
+let pi_i = new Complex(0, Math.PI);
 
 console.log(
-	e
-	.pow(pi.times(i))
+	Functions.exp(pi_i)
 	.round(10)
 	.toString()
 ); // e ^ i pi

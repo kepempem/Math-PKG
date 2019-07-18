@@ -7,7 +7,7 @@ const FupperBound = Math.pow(10, 6);
 const eps = Math.pow(10, -10);
 const realUnit = new Complex(1, 0);
 const imaginaryUnit = new Complex(0, 1);
-
+const complexE = new Complex(Math.E);
 
 // Real Functions (R -> R)
 
@@ -164,23 +164,20 @@ const Factorial = (z)=>{
 
 const ComplexFactorial = z=>{
 	let s = new Complex(0);
-	for(let j=1;j<=upperBound;j++){
+	for(let j=1;j<=FupperBound;j++){
 		let _j = toComplex(j);
 		s.setC(
 			s.add(
 				_j
 					.pow(z)
 					.divide(
-						toComplex(Math.E)
-						.pow(
-							toComplex(j/k)
-						)
+						exp(j/Fk)
 					)
 			)
 		);
 	}
 	return s.divide(
-		toComplex(k)
+		toComplex(Fk)
 		.pow(z.add(1))
 	);
 };
@@ -277,6 +274,9 @@ const cis = x=>{
 };
 
 
+const exp = x=>complexE.pow(x);
+
+
 const ln = x=>{
 	if(typeof x == "number"){
 		return new Complex(Math.log(x));
@@ -335,6 +335,7 @@ module.exports={
 	cos,
 	tan,
 	cis,
+	exp,
 	ln,
 	log,
 	abs
