@@ -17,20 +17,3 @@ console.log(
 	.round(10)
 	.toString()
 ); // e ^ i pi
-
-let b16 = BaseToolbox.generateSimpleBase(16);
-let b2 = BaseToolbox.generateSimpleBase(2);
-console.log(
-	new BaseToolbox.BaseNumber("1001101",b2)
-	.to(b16)
-	.toString()
-);
-let c = new Complex(5, 8);
-console.log(
-	Functions.cis(c.Arg)
-	.times(Functions.abs(c))
-	.round(10)
-	.toString()
-);
-console.log(Functions.sin(new Complex(4, 7)).toString());
-console.log(Functions.li(100));

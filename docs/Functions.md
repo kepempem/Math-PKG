@@ -8,6 +8,7 @@
             + [Sum(a, b, f[, step = 1])](#suma-b-f-step--1)
             + [Prod(a, b, f[, step=1])](#proda-b-f-step--1)
             + [digamma(x)](#digammax)
+            + [eta(s)](#etas)
             + [zeta(s)](#zetas)
             + [FactorialDerivative(x)](#factorialderivativex)
             + [erf(x)](#erfx)
@@ -61,9 +62,16 @@ The digamma function. Defined as ``digamma(x) = gamma'(x) / gamma(x)`` where ``g
 let dg = Functions.digamma(5); // ~ 1.506117
 ```
 
+## eta(s)
+The Dirichlet Eta Function.
+`s` must be a real number. The function is only able to calculate values for `s >= 0`.
+```
+let ln2 = Function.eta(1); // ~ 0.6931471
+```
+
 ## zeta(s)
 The Riemann Zeta function.
-`s` must be a real number.
+`s` must be a real number. The function is only able to calculate values for `s >= 0` and is undefined at `s = 1`.
 ```
 let psos = Functions.zeta(2); // ~ 1.64493
 ```

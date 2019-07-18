@@ -14,6 +14,7 @@
             + [BaseNumber](#basenumber)
                 + [BaseNumber.toString()](#basenumbertostring)
                 + [BaseNumber.to(b)](#basenumbertob)
+                + [BaseNumber.toBase10()](#basenumbertobase10)
                 + [BaseNumber.digits](#basenumberdigits)
                 + [BaseNumber.base](#basenumberbase)
                 + [BaseNumber.sign](#basenumbersign)
@@ -101,6 +102,13 @@ let b16 = new BaseToolbox.Base(["0","1","2","3","4","5","6","7","8","9","A","B",
 let n1 = new BaseToolbox.BaseNumber("1011010110",b2);
 
 let n2 = n1.to(b16).toString(); // Output: "2D6"
+```
+
+### BaseNumber.toBase10()
+Turns the `BaseNumber` into a base 10 number and returns the result (As an instance of `Number`, not `BaseNumber`).
+```
+let n1 = new BaseToolbox.BaseNumber("A12", base16);
+let n2 = n1.toBase10(); // = 2578
 ```
 
 ### BaseNumber.digits

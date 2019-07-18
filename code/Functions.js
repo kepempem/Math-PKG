@@ -4,6 +4,7 @@ const Complex = require("./Complex");
 
 const Fk = Math.pow(10, 4);
 const FupperBound = Math.pow(10, 6);
+const eps = Math.pow(10, -10);
 const realUnit = new Complex(1, 0);
 const imaginaryUnit = new Complex(0, 1);
 
@@ -41,15 +42,34 @@ const Prod = (a, b, f, step = 1)=>{
 
 const digamma = x=>FactorialDerivative(x-1)/gamma(x);
 
+const eta = s=>{
+	if(s < 0){
+		return NaN;
+	}else if(s == 0){
+		return 1/2;
+	}else{
+		return RiemannSum.avg(s>0?0:eps, 100, t=>(Math.pow(t, s)/Math.pow(Math.cosh(t),2)))/(Math.pow(2,1-s)*gamma(s+1));
+	}
+};
+
 const zeta = s=>{
-	if(s>1){
+	if(s == 1){
+		return Infinity;
+	}else if(s > 0 && s < 2){
+		return eta(s)/(1-Math.pow(2,1-s))
+	}else if(s>=2){
 		let rs = RiemannSum.avg(Math.pow(10,-8),100,t=>{
 			return Math.pow(t,s-1)/(Math.exp(t)-1);
 		});
 		return (1/gamma(s)) * rs;
-	}else{
-		return NaN;
+	}else if(s == 0){
+		return -1/2;
+	}else if(s == -1){
+		return -1/12;
+	}else if(s < 0 && Math.abs(s) % 2 == 0){
+		return 0;
 	}
+	return NaN;
 };
 
 const FactorialDerivative = (z)=>{
@@ -63,13 +83,23 @@ const erf = x=>(2/Math.sqrt(Math.PI)) * RiemannSum.avg(0, x, t=>Math.exp(-1 * Ma
 const Ei = x=>li(Math.exp(x));
 
 const li = x=>{
-	let rema = 0;
-	let start = Math.pow(10, -8);
-	if(x >= 2){
-		rema = li2;
-		start = 2;
+	const g = t=>1/ln(t).Re;
+	if(x == 0){
+		return 0;
+	}else if(x < 0){
+		return NaN;
+	}else if(x == 1){
+		return -Infinity;
+	}else if(x < 2){
+		let h = Math.pow(10, -6);
+		if(x > 1){
+			return RiemannSum.avg(eps,1-eps,g,0,h) + RiemannSum.avg(1+eps, x, g,0,h);
+		}else{
+			return RiemannSum.avg(eps, x, g,0,h);
+		}
+	}else{
+		return li2 + RiemannSum.avg(2, x, g);
 	}
-	return rema+RiemannSum.avg(start, x, t=>1/ln(t).Re);
 };
 
 const root = (r,p)=>Math.pow(r, 1/p);
@@ -285,6 +315,7 @@ module.exports={
 	Sum,
 	Prod,
 	digamma,
+	eta,
 	zeta,
 	FactorialDerivative,
 	erf,

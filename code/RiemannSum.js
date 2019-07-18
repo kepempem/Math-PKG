@@ -1,7 +1,11 @@
-const riemannSum = (a, b, f, p = 0, isLeftSum=true)=>{
+const DEFAULT_RECT_LENGTH = Math.pow(10, -3);
+const riemannSum = (a, b, f, p = 0, l=0, isLeftSum=true)=>{
+	if(a == b){
+		return 0;
+	}
 	let n = p;
 	if(n <= 0){
-		n = Math.pow(10,3) * (b - a);
+		n = Math.ceil((1/l) * (b - a));
 	}
 	let dt = ((b-a)/n);
 	let sumStart = 0;
@@ -16,10 +20,13 @@ const riemannSum = (a, b, f, p = 0, isLeftSum=true)=>{
 };
 
 
-const avgRiemannSum = (a, b, f, p=0)=>{
+const avgRiemannSum = (a, b, f, p=0, l=DEFAULT_RECT_LENGTH)=>{
+	if(a == b){
+		return 0;
+	}
 	let n = p;
 	if(n <= 0){
-		n = Math.ceil(Math.pow(10, 3) * (b - a));
+		n = Math.ceil((1/l) * (b - a));
 	}
 	let dt = (b-a)/n;
 	return (dt/2) * (f(a) + f(b)) + dt * Sum(1,n-1, (i)=>{
@@ -27,10 +34,10 @@ const avgRiemannSum = (a, b, f, p=0)=>{
 	});
 };
 
-const {Sum, Prod} = require("./Functions");
+const {Sum} = require("./Functions");
 
 module.exports={
-	left:(a,b,f,n=0)=>riemannSum(a,b,f,n.true),
-	right:(a,b,f,n=0)=>riemannSum(a,b,f,n,false),
-	avg:(a,b,f,n=0)=>avgRiemannSum(a,b,f,n)
+	left:(a,b,f,n=0,l=DEFAULT_RECT_LENGTH)=>riemannSum(a,b,f,n,l,true),
+	right:(a,b,f,n=0,l=DEFAULT_RECT_LENGTH)=>riemannSum(a,b,f,n,l,false),
+	avg:(a,b,f,n=0,l=DEFAULT_RECT_LENGTH)=>avgRiemannSum(a,b,f,n,l)
 };
