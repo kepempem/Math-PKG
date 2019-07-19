@@ -65,14 +65,14 @@ let dg = Functions.digamma(5); // ~ 1.506117
 
 ## eta(s)
 The Dirichlet Eta Function.
-`s` must be a real number. The function is only able to calculate values for `s >= 0`.
+`s` must be a real number. The function is defined for all real numbers.
 ```
 let ln2 = Function.eta(1); // ~ 0.6931471
 ```
 
 ## zeta(s)
 The Riemann Zeta function.
-`s` must be a real number. The function is only able to calculate values for `s >= 0` and is undefined at `s = 1`.
+`s` must be a real number. The function is defined for all real numbers except `1`.
 ```
 let psos = Functions.zeta(2); // ~ 1.64493
 ```
@@ -121,6 +121,17 @@ Rounds `x` to `d` decimal places and returns the result.
 let r = Functions.round(Math.PI,5); // = 3.14159
 ```
 
+## binom(n, k)
+Calculates the binomial coefficient `n` choose `k` and returns the result.
+```
+let c = Functions.binom(7, 4); // = 35
+```
+
+## B(n)
+Calculates the nth Bernoulli number and returns the result.
+```
+let ber16 = Functions.B(16); // ~ -7.092156862
+```
 
 
 

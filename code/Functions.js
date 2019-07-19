@@ -44,7 +44,7 @@ const digamma = x=>FactorialDerivative(x-1)/gamma(x);
 
 const eta = s=>{
 	if(s < 0){
-		return NaN;
+		return (1 - Math.pow(2, 1-s)) * zeta(s);
 	}else if(s == 0){
 		return 1/2;
 	}else{
@@ -58,16 +58,25 @@ const zeta = s=>{
 	}else if(s > 0 && s < 2){
 		return eta(s)/(1-Math.pow(2,1-s))
 	}else if(s>=2){
-		let rs = RiemannSum.avg(Math.pow(10,-8),100,t=>{
-			return Math.pow(t,s-1)/(Math.exp(t)-1);
-		});
-		return (1/gamma(s)) * rs;
+		if(s % 2 == 0){
+			let n = s/2;
+			let q1 = Math.pow(-1, n+1) * B(s) * Math.pow(2 * Math.PI, s);
+			let q2 = 2 * Factorial(s);
+			return q1/q2;
+		}else{
+			let rs = RiemannSum.avg(Math.pow(10,-8),100,t=>{
+				return Math.pow(t,s-1)/(Math.exp(t)-1);
+			});
+			return (1/gamma(s)) * rs;
+		}
 	}else if(s == 0){
 		return -1/2;
 	}else if(s == -1){
 		return -1/12;
 	}else if(s < 0 && Math.abs(s) % 2 == 0){
 		return 0;
+	}else if(s < 0){
+		return Math.pow(2,s) * Math.pow(Math.PI, s-1) * Math.sin((Math.PI * s)/2) * gamma(1-s) * zeta(1-s);
 	}
 	return NaN;
 };
@@ -106,7 +115,19 @@ const root = (r,p)=>Math.pow(r, 1/p);
 
 const round = (x,p)=>Math.round(x * Math.pow(10,p)) / Math.pow(10,p);
 
+const binom = (n,k)=>Factorial(n)/(Factorial(k)*Factorial(n-k));
 
+const B = n=>{
+	if(n == 0){
+		return 1;
+	}else if(n > 1 && n % 2 == 1){
+		return 0;
+	}else{
+		return (-1/(n+1)) * Sum(0, n-1, k=>{
+			return binom(n+1, k) * B(k);
+		});
+	}
+};
 
 // Complex Functions
 const toComplex = x=>{
@@ -323,6 +344,8 @@ module.exports={
 	li,
 	root,
 	round,
+	binom,
+	B,
 
 
 	// Complex Functions
