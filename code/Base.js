@@ -157,8 +157,6 @@ const convert = (num, from, to)=>{
 	}
 };
 
-const convertString = (num, from, to)=>convert(num,from,to).toString();
-
 module.exports = {
 	Base,
 	generateSimpleBase,

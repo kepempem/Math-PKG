@@ -16,6 +16,8 @@
             + [li(x)](#lix)
             + [root(x, n)](#rootx-n)
             + [round(x, d)](#roundx-d)
+            + [binom(n, k)](#binomn-k)
+            + [B(n)](#Bn)
             + [toComplex(x)](#tocomplexx)
             + [toReal(x)](#torealx)
             + [gamma(x)](#gammax)

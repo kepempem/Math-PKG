@@ -70,6 +70,7 @@ class Complex {
 		}else if(this.Re < 0 && this.Im < 0){
 			return at-Math.PI;
 		}
+		return NaN;
 	}
 
 	add(n){

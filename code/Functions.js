@@ -19,7 +19,7 @@ const Sum = (a, b, f, step = 1)=>{
 		end = a;
 	}
 	let _sum = 0;
-	for(let i=a; i<=b; i=i+step){
+	for(let i=n; i<=end; i=i+step){
 		_sum += f(i);
 	}
 	return _sum;
@@ -34,7 +34,7 @@ const Prod = (a, b, f, step = 1)=>{
 		end = a;
 	}
 	let _prod = 1;
-	for(let i=a; i<=b; i=i+step){
+	for(let i=n; i<=end; i=i+step){
 		_prod *= f(i);
 	}
 	return _prod;
@@ -199,7 +199,7 @@ const ComplexFactorial = z=>{
 	}
 	return s.divide(
 		toComplex(Fk)
-		.pow(z.add(1))
+			.pow(z.add(1))
 	);
 };
 
@@ -214,7 +214,7 @@ const findRoots = (...v)=>{
 			if(toComplex(v[i]).equals(0)){
 				continue;
 			}else{
-				return equation(...v.slice(i));
+				return findRoots(...v.slice(i));
 			}
 		}
 	}
@@ -242,7 +242,7 @@ const findRoots = (...v)=>{
 		return [g1.add(g2).divide(g3), g1.subtract(g2).divide(g3)];
 	}else if(order == 4){
 		if(c[3].equals(0) && c[1].equals(0)){
-			let t = equation(c[4],c[2],c[0]);
+			let t = findRoots(c[4],c[2],c[0]);
 			let x12 = t[0].pow(1/2);
 			let x34 = t[1].pow(1/2);
 			return [x12,x12.minus,x34,x34.minus];
