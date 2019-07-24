@@ -113,7 +113,7 @@ class Complex {
 
 	equals(n){
 		if(n instanceof Complex){
-			return this.Re == n.Re ** this.Im == n.Im;
+			return this.Re == n.Re && this.Im == n.Im;
 		}else if(typeof n == "number"){
 			return this.Re == n && this.Im == 0;
 		}
@@ -124,28 +124,75 @@ class Complex {
 	}
 
 	pow(n){
+
+		if(this.equals(realUnit)){
+			return realUnit;
+		}
+		
 		if(typeof n == "number"){
+			if(this.equals(0)){
+				if(n <= 0){
+					return NaN;
+				}
+				return CZero;
+			}
+
 			if(n == 0){
 				return realUnit;
-			}else if(n == 1){
-				return this.copy();
-			}else if(n == -1){
-				let absq = Math.pow(abs(this), 2);
-				return new Complex(this.Re / absq, -1 * this.Im/absq);
-			}else if(n < 0){
-				return realUnit.divide(this.pow(-1 * n));
-			}else if(n > 0){
-				if(n % 1 == 0){
-					return this.times(this.pow(n-1));
-				}else{
-					let frac = n % 1;
-					let whole = Math.floor(n);
-					return this.pow(whole).times(this.roots(1/frac)[0]);
-				}
 			}
-		}else if(n instanceof Complex){
-			return this.pow(n.Re).times(cis(ln(this).times(n.Im)));
+
+			if(n == 1){
+				return this.copy();
+			}
+
+			return this.realPow(n);
+
 		}
+		
+		if(n instanceof Complex){
+			if(this.equals(0)){
+				if(n.equals(0) || n.Im !== 0 || n.Re < 0){
+					return NaN;
+				}
+				return CZero;
+			}
+			return this.complexPow(n);
+		}
+
+	}
+
+	realPow(n){
+
+		if(n == -1){
+			let absq = Math.pow(abs(this), 2);
+			return new Complex(this.Re / absq, -1 * this.Im/absq);
+		}
+
+		if(n < 0){
+			return realUnit.divide(this.pow(-1 * n));
+		}
+
+		if(n > 0){
+			if(n % 1 == 0){
+				return this.times(this.pow(n-1));
+			}else{
+				let frac = n % 1;
+				let whole = Math.floor(n);
+				return this.pow(whole).times(this.roots(1/frac)[0]);
+			}
+		}
+
+	}
+
+	complexPow(n){
+		return this
+			.pow(n.Re)
+			.times(
+				cis(
+					ln(this)
+						.times(n.Im)
+				)
+			);
 	}
 
 	copy(){
@@ -186,12 +233,7 @@ class Complex {
 
 
 const realUnit = new Complex(1, 0);
-const toComplex = x=>{
-	if(typeof x == "number"){
-		return new Complex(x, 0);
-	}else if(x instanceof Complex){
-		return x;
-	}
-};
+const CZero = new Complex(0, 0);
+
 module.exports = Complex;
-const {cis, ln, abs} = require("./Functions");
+const {cis, ln, abs, toComplex} = require("./Functions");

@@ -6,9 +6,12 @@
         + [Complex Numbers](./Complex.md)
         + [Functions](./Functions.md)
         + [**Riemann Summation (Integration)**](#riemann-summation-integration)
-            + [left(a, b, f[, n = 0])](#lefta-b-f-n--0)
-            + [right(a, b, f[, n = 0])](#righta-b-f-n--0)
-            + [avg(a, b, f[, n = 0])](#avga-b-f-n--0)
+            + [left(a, b, f[, n = 0])](#lefta-b-f-n--0-l--10---3)
+            + [right(a, b, f[, n = 0])](#righta-b-f-n--0-l--10---3)
+            + [avg(a, b, f[, n = 0])](#avga-b-f-n--0-l--10---3)
+            + [complexLeft(a, b, f[, n = 0])](#complexlefta-b-f-n--0-l--10---3)
+            + [complexRight(a, b, f[, n = 0])](#complexrighta-b-f-n--0-l--10---3)
+            + [complexAvg(a, b, f[, n = 0])](#complexavga-b-f-n--0-l--10---3)
         + [BaseToolbox](./BaseToolbox.md)
         + [Constants](./Constants.md)
 
@@ -41,3 +44,15 @@ Calculates the average of the left side and right side Riemann sums of `f(x)` fr
 ```
 let area = RiemannSum.avg(0,10,x=>x); // = 50
 ```
+
+## complexLeft(a, b, f[, n = 0, l = 10 ^ -3])
+
+Same as ``RiemannSum.left`` except ``f`` is a function which takes a single ``Complex`` argument instead of a real one and must return an instance of ``Complex``. `a` and `b` must be real numbers.
+
+## complexRight(a, b, f[, n = 0, l = 10 ^ -3])
+
+Same as ``RiemannSum.right`` except ``f`` is a function which takes a single ``Complex`` argument instead of a real one and must return an instance of ``Complex``. `a` and `b` must be real numbers.
+
+## complexAvg(a, b, f[, n = 0, l = 10 ^ -3])
+
+Same as ``RiemannSum.avg`` except ``f`` is a function which takes a single ``Complex`` argument instead of a real one and must return an instance of ``Complex``. `a` and `b` must be real numbers.

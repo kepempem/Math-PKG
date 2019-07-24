@@ -1,10 +1,11 @@
 {
   "name": "math-pkg-cmplx",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Math Library with Complex Number Functionality, Integration functions and conversion functions between numerical bases.",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "node test.js",
+    "check": "./node_modules/.bin/eslint code"
   },
   "repository": {
     "type": "git",
